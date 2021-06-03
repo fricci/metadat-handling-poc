@@ -4,3 +4,7 @@ export interface ViewMetadata<TRANSIENT, PERSISTENT> {
     persistent: PERSISTENT;
     
 }
+
+export interface MetadataId {
+    id: string;
+}

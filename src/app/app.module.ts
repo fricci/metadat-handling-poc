@@ -6,16 +6,14 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { PageViewComponent } from './pageview/pageview.component';
-import { PanelViewComponent } from './panelview/panelview.component';
 import { AppRoutingModule } from './app.routing.module';
 import { FormsModule } from '@angular/forms';
+import { PanelViewModule } from './panelview/panelview.module';
+import { PageViewModule } from './pageview/pageview.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PageViewComponent,
-    PanelViewComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +21,9 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    PanelViewModule,
+    PageViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]
