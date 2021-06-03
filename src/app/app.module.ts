@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { FormsModule } from '@angular/forms';
 import { PanelViewModule } from './panelview/panelview.module';
 import { PageViewModule } from './pageview/pageview.module';
+import { MetadataHandlerInRenderer } from './services/metadata-handler-in-renderer.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { PageViewModule } from './pageview/pageview.module';
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([MetadataHandlerInRenderer]),
     PanelViewModule,
     PageViewModule
   ],
