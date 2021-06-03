@@ -1,10 +1,10 @@
-<h1>Angular Router App</h1>
-<!-- This nav gives you links to click, which tells the router which route to use (defined in the routes constant in  AppRoutingModule) -->
+<span>Page id:</span><input [(ngModel)]="pageId" />
+<span>Panel id:</span><input [(ngModel)]="panelId" />
 <nav>
   <ul>
-    <li><a routerLink="/pageView" routerLinkActive="active">Page view</a></li>
-    <li><a routerLink="/panelView" routerLinkActive="active">Panel view</a></li>
+    <li><a [routerLink]="['/pageView', pageId]" routerLinkActive="active">Page view</a></li>
+    <li><a [routerLink]="['/panelView', panelId]" routerLinkActive="active">Panel view</a></li>
   </ul>
 </nav>
-<!-- The routed views render in the <router-outlet>-->
+
 <router-outlet></router-outlet>

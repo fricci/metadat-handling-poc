@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PageViewComponent } from './pageview/pageview.component';
 import { PanelViewComponent } from './panelview/panelview.component';
 import { AppRoutingModule } from './app.routing.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AppRoutingModule } from './app.routing.module';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
