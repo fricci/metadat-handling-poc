@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { PanelViewModule } from './panelview/panelview.module';
 import { PageViewModule } from './pageview/pageview.module';
 import { MetadataHandlerInRenderer } from './services/metadata-handler-in-renderer.service';
+import { metadataReducer } from './store/metadata.reducers';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { MetadataHandlerInRenderer } from './services/metadata-handler-in-render
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({
+      metadata: metadataReducer
+    }, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([MetadataHandlerInRenderer]),
     PanelViewModule,

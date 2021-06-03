@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError, tap } from 'rxjs/operators';
-import { loadMetadataActions, LoadMetadataActionType } from '../store/metadata-action.actions';
+import { map, mergeMap } from 'rxjs/operators';
+import { loadMetadataActions, LoadMetadataActionType, metadataArrivedType } from '../store/metadata-action.actions';
 import { MainService } from './main.service';
 
 @Injectable()
@@ -10,7 +9,15 @@ export class MetadataHandlerInRenderer {
 
     loadMetadata$ = createEffect(() => this.actions$.pipe(
         ofType<LoadMetadataActionType>(loadMetadataActions),
-        tap((action) => this.mainService.getMetadataById(action.id).then((result) => console.log(result)))), {dispatch: false});
+        mergeMap((action) => this.mainService.getMetadataById(action.id).pipe(
+            map(result => ({
+                type: metadataArrivedType,
+                payload: {
+                    id: action.id,
+                    metadata: result
+                }
+            }))
+        ))));
 
     constructor(
         private actions$: Actions<any>,

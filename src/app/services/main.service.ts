@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { TEST_DATA } from './testdata';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { TEST_DATA } from './testdata';
 })
 export class MainService {
 
-  getMetadataById(id: string): Promise<any> {
-    return Promise.resolve(TEST_DATA[id]);
+  getMetadataById(id: string): Observable<any> {
+    return of(TEST_DATA[id]);
   }
 }
