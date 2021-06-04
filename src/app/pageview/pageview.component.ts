@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
 import { loadMetadataActions } from '../store/metadata-action.actions';
+import store from '../store/store';
 
 @Component({
   selector: 'app-pageview',
@@ -14,12 +15,12 @@ export class PageViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<any /* interface */>) { }
+    private metadataService: MetadataHandlerInRenderer) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((param: ParamMap) => {
       this.id = param.get('id');
-      this.store.dispatch(loadMetadataActions({ id: this.id }));
+      store.dispatch(this.metadataService.findMetadataById(this.id));
     });
   }
 

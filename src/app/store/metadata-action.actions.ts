@@ -1,14 +1,18 @@
-import { createAction, props } from '@ngrx/store';
 import { MetadataId } from './model/view-metadata.model';
+import { registerReducer } from './store';
 
 export const loadMetadataType = '[MetadataAction] Load MetadataActions';
 export const metadataArrivedType = '[MetadataAction] MetadataArrived Actions';
 
-export const loadMetadataActions = createAction(
-  loadMetadataType,
-  props<MetadataId>()
-);
+export function loadMetadataActions(payload) {
+  return { type: loadMetadataType, payload };
+}
 
+export function metadataArrivedAction(payload) {
+  return { type: metadataArrivedType, payload };
+}
+
+/*
 export const metadataArrivedActions = createAction(
   metadataArrivedType,
   props<{
@@ -21,5 +25,5 @@ export const metadataArrivedActions = createAction(
 
 export type LoadMetadataActionType = ReturnType<typeof loadMetadataActions>;
 export type MetadataArrivedActionType = ReturnType<typeof metadataArrivedActions>;
-
+*/
 

@@ -1,13 +1,12 @@
-import { createReducer, on } from '@ngrx/store';
 import { produce } from 'immer';
-import { metadataArrivedActions } from './metadata-action.actions';
+import { metadataArrivedType } from './metadata-action.actions';
+import { registerReducer } from './store';
 
-export const metadataReducer = createReducer(
-    {},
-    on(metadataArrivedActions, (state, action) => {
+export function registerCommonMetadata() {
+    registerReducer(metadataArrivedType, (state, action) => {
         console.log(action);
         return produce(state, draftState => {
-            draftState[action.payload.id] = action.payload.metadata
+            draftState[action.payload.id] = action.payload.payload
         });
     })
-  );
+}
