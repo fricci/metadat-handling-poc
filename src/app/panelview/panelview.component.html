@@ -1,1 +1,9 @@
 <p>panelview works! (id: {{id}})</p>
+<p>
+Ui elements out of panel: {{uiElementsOutOfPanel$ | async }}
+</p>
+<p>
+    <span>New elements out of panel:</span><input [(ngModel)]="newUiElements" />
+    <br>
+    <button (click)="newMetadata()">Dispatch</button>
+</p>

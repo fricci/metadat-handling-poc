@@ -1,6 +1,7 @@
 import { applyMiddleware, createStore } from '@reduxjs/toolkit';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 export function registerReducer(actionType: string, reducer: (state: any,action: any) => any) {
     registeredReducers.set(actionType, reducer);
@@ -22,5 +23,11 @@ const store = createStore(rootReducer, composeWithDevTools(
     applyMiddleware(thunk),
     // other store enhancers if any
   ));
+
+export const state$ = new BehaviorSubject<{}>(store.getState());  
+
+store.subscribe(() => {
+    state$.next(store.getState());
+})
 
 export default store;
