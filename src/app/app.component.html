@@ -2,8 +2,10 @@
 <span>Panel id:</span><input [(ngModel)]="panelId" />
 <nav>
   <ul>
-    <li><a [routerLink]="['/pageView', pageId]" routerLinkActive="active">Page view</a></li>
-    <li><a [routerLink]="['/panelView', panelId]" routerLinkActive="active">Panel view</a></li>
+    <li><a routerLink="/pageView/page_1" routerLinkActive="active">Page view 1</a></li>
+    <li><a routerLink="/panelView/panel_1" routerLinkActive="active">Panel view 1</a></li>
+    <li><a routerLink="/pageView/page_2" routerLinkActive="active">Page view 2</a></li>
+    <li><a routerLink="/panelView/panel_2" routerLinkActive="active">Panel view 2</a></li>
   </ul>
 </nav>
 

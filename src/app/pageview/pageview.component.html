@@ -2,7 +2,10 @@
 
 X: {{x$ | async}}
 Y: {{y$ | async}}
-
-<span>New X:</span><input [(ngModel)]="newX" />
-<span>New Y:</span><input [(ngModel)]="newY" />
-<button (click)="newMetadata()">Dispatch</button>
+<p>
+    <span>New X:</span><input [(ngModel)]="newX" />
+    <br>
+    <span>New Y:</span><input [(ngModel)]="newY" />
+    <br>
+    <button (click)="newMetadata()">Dispatch</button>
+</p>

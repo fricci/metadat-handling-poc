@@ -29,9 +29,8 @@ export class PageViewComponent implements OnInit {
     
     this.route.paramMap.subscribe((param: ParamMap) => {
       this.id = param.get('id');
-      this.x$ = boxPositionObserver(this.id).pipe(map(position => position?.x));
-      this.y$ = boxPositionObserver(this.id).pipe(map(position => position?.y));
-      store.dispatch(this.metadataService.findMetadataById(this.id));
+      this.x$ = boxPositionObserver(this.metadataService, this.id).pipe(map(position => position?.x));
+      this.y$ = boxPositionObserver(this.metadataService, this.id).pipe(map(position => position?.y));
     });
   }
 
