@@ -1,1 +1,8 @@
 <p>pageview works! (id: {{id}})</p>
+
+X: {{x$ | async}}
+Y: {{y$ | async}}
+
+<span>New X:</span><input [(ngModel)]="newX" />
+<span>New Y:</span><input [(ngModel)]="newY" />
+<button (click)="newMetadata()">Dispatch</button>
