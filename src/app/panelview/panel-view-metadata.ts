@@ -14,15 +14,10 @@ export interface PanelPersistentData {
 }
 
 export interface PanelViewMetadata extends ViewMetadata<PanelTransientData, PanelPersistentData> {
-    
+
 }
 
 export function uiElementsOutOfThePanelObserver(metadataService: MetadataHandlerInRenderer, panelId: string): Observable<string[]> {
-    let startValue = null;
-    if(!objectPath.has(store.getState(), `${panelId}.uiElementsOutOfThePanel`)) {
-        store.dispatch(metadataService.findMetadataById(panelId));
-    } else {
-        startValue = objectPath.get(store.getState(), `${panelId}.uiElementsOutOfThePanel`)
-    }
+    store.dispatch(metadataService.findMetadataById(panelId));
     return state$.pipe(map(state => objectPath.get(state, `${panelId}.uiElementsOutOfThePanel`), distinct()));
 }

@@ -23,13 +23,8 @@ export interface PageViewMetadata extends ViewMetadata<PageTransientData, PagePe
 }
 
 export function boxPositionObserver(metadataService: MetadataHandlerInRenderer, pageId: string): Observable<Position> {
-    let startValue = null;
-    if(!objectPath.has(store.getState(), `${pageId}.boxPosition`)) {
-        store.dispatch(metadataService.findMetadataById(pageId));
-    } else {
-        startValue = objectPath.get(store.getState(), `${pageId}.boxPosition`)
-    }
-    const subject = new BehaviorSubject<Position>(startValue);
+    store.dispatch(metadataService.findMetadataById(pageId));
+    const subject = new BehaviorSubject<Position>(objectPath.get(store.getState(), `${pageId}.boxPosition`));
     let w = watch(store.getState, `${pageId}.boxPosition`);
     store.subscribe(w((newVal, oldVal, objectPath) => {
         subject.next(newVal);

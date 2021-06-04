@@ -10,7 +10,6 @@ export function registerReducer(actionType: string, reducer: (state: any,action:
 const registeredReducers = new Map<string, (state: any,action: any) => any>();
 
 function rootReducer(state={}, action) {
-    console.log('New action ', action);
     if(registeredReducers.has(action.type)) {
         return registeredReducers.get(action.type)(state, action);
     } else {

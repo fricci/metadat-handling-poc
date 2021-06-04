@@ -26,7 +26,6 @@ export class PageViewComponent implements OnInit {
     private metadataService: MetadataHandlerInRenderer) { }
 
   ngOnInit(): void {
-    
     this.route.paramMap.subscribe((param: ParamMap) => {
       this.id = param.get('id');
       this.x$ = boxPositionObserver(this.metadataService, this.id).pipe(map(position => position?.x));
