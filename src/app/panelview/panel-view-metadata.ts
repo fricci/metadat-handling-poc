@@ -19,5 +19,5 @@ export interface PanelViewMetadata extends ViewMetadata<PanelTransientData, Pane
 
 export function uiElementsOutOfThePanelObserver(metadataService: MetadataHandlerInRenderer, panelId: string): Observable<string[]> {
     store.dispatch(metadataService.findMetadataById(panelId));
-    return state$.pipe(map(state => objectPath.get(state, `${panelId}.uiElementsOutOfThePanel`), distinct()));
+    return state$.pipe(map(state => objectPath.get(state, `metadata.${panelId}.persistent.uiElementsOutOfThePanel`), distinct()));
 }
