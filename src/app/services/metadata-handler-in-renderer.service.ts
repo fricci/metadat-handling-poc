@@ -23,4 +23,16 @@ export class MetadataHandlerInRenderer {
             }
         }
     }
+
+    saveMetadata() {
+        return (dispatch) => {
+            const metadataToSave = {};
+            const allMetadata = store.getState()?.metadata;
+            const ids = Object.keys(allMetadata);
+            for(const id of ids) {
+                metadataToSave[id] = allMetadata[id];
+            }
+            this.mainService.saveMetadata(metadataToSave).then(() => dispatch({ type: 'Save success'}));
+        }
+    }
 }

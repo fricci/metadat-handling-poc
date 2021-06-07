@@ -10,4 +10,10 @@ export class MainService {
   getMetadataById(id: string): Observable<any> {
     return of(TEST_DATA[id]);
   }
+
+  saveMetadata(allMetadata): Promise<void> {
+    console.log('Saving all metadata');
+    console.table(allMetadata);
+    return Promise.resolve();
+  }
 }
