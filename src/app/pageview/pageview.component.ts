@@ -3,9 +3,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
-import { metadataArrivedAction } from '../store/metadata-action.actions';
 import store from '../store/store';
-import { boxPositionObserver } from './page-view-metadata';
+import { boxPositionObserver, moveBoxPositionAction } from './page-view-metadata';
 
 @Component({
   selector: 'app-pageview',
@@ -34,12 +33,7 @@ export class PageViewComponent implements OnInit {
   }
 
   newMetadata() {
-    store.dispatch(metadataArrivedAction({id: this.id, payload: {
-      boxPosition: {
-        x: this.newX,
-        y: this.newY
-      }
-    }}))
+    store.dispatch(moveBoxPositionAction({id: this.id, x: this.newX, y: this.newY}))
   }
 
 }

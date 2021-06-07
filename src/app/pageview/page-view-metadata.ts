@@ -22,6 +22,12 @@ export interface PageViewMetadata extends ViewMetadata<PageTransientData, PagePe
 
 }
 
+export const moveBoxPosition = '[PageViewActions] moveBoxPosition';
+
+export function moveBoxPositionAction(payload: {id: string, x: string, y: string}) {
+    return { type: moveBoxPosition, payload };
+  }
+
 export function boxPositionObserver(metadataService: MetadataHandlerInRenderer, pageId: string): Observable<Position> {
     store.dispatch(metadataService.findMetadataById(pageId));
     const subject = new BehaviorSubject<Position>(objectPath.get(store.getState(), `${pageId}.boxPosition`));
@@ -31,3 +37,5 @@ export function boxPositionObserver(metadataService: MetadataHandlerInRenderer, 
     }))
     return subject;
 }
+
+
