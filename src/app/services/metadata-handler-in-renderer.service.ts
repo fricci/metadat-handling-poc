@@ -12,12 +12,19 @@ import objectPath from 'object-path';
 })
 export class MetadataHandlerInRenderer {
 
+    private inProgress = new Set<string>();
+
     constructor(private mainService: MainService) { }
 
     findMetadataById(id: string): ThunkAction<void, {}, unknown, AnyAction> {
         return (dispatch) => {
+            if(this.inProgress.has(id)) {
+                return;
+            }
+            this.inProgress.add(id);
             if (!objectPath.has(store.getState(), id)) {
                 this.mainService.getMetadataById(id).pipe(take(1)).toPromise().then((json) => {
+                    this.inProgress.delete(id);
                     return dispatch(metadataArrivedAction({ id, payload: json }));
                 });
             }
@@ -30,7 +37,7 @@ export class MetadataHandlerInRenderer {
             const allMetadata = store.getState()?.metadata;
             const ids = Object.keys(allMetadata);
             for(const id of ids) {
-                metadataToSave[id] = allMetadata[id];
+                metadataToSave[id] = allMetadata[id].persistent;
             }
             this.mainService.saveMetadata(metadataToSave).then(() => dispatch({ type: 'Save success'}));
         }
