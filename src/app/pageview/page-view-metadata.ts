@@ -6,7 +6,7 @@ import objectPath from 'object-path';
 import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
 import produce from 'immer';
 import { WritableDraft } from 'immer/dist/internal';
-import { distinct, map } from 'rxjs/operators';
+import { distinct, filter, map } from 'rxjs/operators';
 
 export interface PageTransientData {
     selectedElementId: string;
@@ -102,6 +102,11 @@ export class PageMetadata extends Metadata<PageTransientData, PagePersistentData
     get y$(): Observable<string> {
         return this.state.pipe(map((state:
             ViewMetadata<PageTransientData, PagePersistentData>) => state?.persistent?.boxPosition?.y), distinct());
+    }
+
+    get boxPosition$(): Observable<Position> {
+        return this.state.pipe(map((state:
+            ViewMetadata<PageTransientData, PagePersistentData>) => state?.persistent?.boxPosition), distinct());
     }
 
     move(newX: string, newY: string) {

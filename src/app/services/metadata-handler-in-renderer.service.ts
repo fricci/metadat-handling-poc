@@ -17,12 +17,12 @@ export class MetadataHandlerInRenderer {
     constructor(private mainService: MainService) { }
 
     findMetadataById(id: string): ThunkAction<void, {}, unknown, AnyAction> {
-        return (dispatch) => {
+        return (dispatch, getState) => {
             if(this.inProgress.has(id)) {
                 return;
             }
             this.inProgress.add(id);
-            if (!objectPath.has(store.getState(), `metadata.${id}`)) {
+            if (!objectPath.has(getState(), `metadata.${id}`)) {
                 this.mainService.getMetadataById(id).pipe(take(1)).toPromise().then((json) => {
                     this.inProgress.delete(id);
                     return dispatch(metadataArrivedAction({ id, payload: json }));
@@ -32,9 +32,9 @@ export class MetadataHandlerInRenderer {
     }
 
     saveMetadata() {
-        return (dispatch) => {
+        return (dispatch, getState) => {
             const metadataToSave = {};
-            const allMetadata = store.getState()?.metadata;
+            const allMetadata = getState()?.metadata;
             const ids = Object.keys(allMetadata);
             for(const id of ids) {
                 metadataToSave[id] = allMetadata[id].persistent;
