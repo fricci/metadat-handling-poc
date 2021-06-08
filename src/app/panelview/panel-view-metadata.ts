@@ -17,7 +17,15 @@ export interface PanelViewMetadata extends ViewMetadata<PanelTransientData, Pane
 
 }
 
+export function metadataSelector(id: string) {
+    return state$.pipe(map(state => objectPath.get(state, `metadata.${id}`), distinct()));
+}
+
+export function persistentMetadataSelector(id: string) {
+    return metadataSelector(id).pipe(map(state => objectPath.get(state, `persistent`), distinct()));
+}
+
 export function uiElementsOutOfThePanelObserver(metadataService: MetadataHandlerInRenderer, panelId: string): Observable<string[]> {
     store.dispatch(metadataService.findMetadataById(panelId));
-    return state$.pipe(map(state => objectPath.get(state, `metadata.${panelId}.persistent.uiElementsOutOfThePanel`), distinct()));
+    return persistentMetadataSelector(panelId).pipe(map(state => objectPath.get(state, `uiElementsOutOfThePanel`), distinct()));
 }

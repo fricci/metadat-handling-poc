@@ -22,7 +22,7 @@ export class MetadataHandlerInRenderer {
                 return;
             }
             this.inProgress.add(id);
-            if (!objectPath.has(store.getState(), id)) {
+            if (!objectPath.has(store.getState(), `metadata.${id}`)) {
                 this.mainService.getMetadataById(id).pipe(take(1)).toPromise().then((json) => {
                     this.inProgress.delete(id);
                     return dispatch(metadataArrivedAction({ id, payload: json }));
