@@ -1,12 +1,12 @@
 import watch from 'redux-watch';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ViewMetadata } from '../store/model/view-metadata.model';
-import store, { registerReducer, Store } from '../store/store';
+import  { PhxStore, Store } from '../store/store';
 import objectPath from 'object-path';
 import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
 import produce from 'immer';
 import { WritableDraft } from 'immer/dist/internal';
-import { distinct, filter, map } from 'rxjs/operators';
+import { distinct, map } from 'rxjs/operators';
 
 export interface PageTransientData {
     selectedElementId: string;
@@ -62,54 +62,54 @@ function movePositionReducer(state: Store, action) {
 
 
 
-export function registerPageReducers() {
-    registerReducer(moveBoxPosition, movePositionReducer);
+export function registerPageReducers(store: PhxStore) {
+    store.registerReducer(moveBoxPosition, movePositionReducer);
 }
 
 class Metadata<T, P> {
 
-    public state: BehaviorSubject<ViewMetadata<T, P>>;
+    public state$: Observable<ViewMetadata<T, P>>;
 
-    constructor(protected metadataService: MetadataHandlerInRenderer, protected id: string) { 
+    constructor(protected store: PhxStore, protected metadataService: MetadataHandlerInRenderer, protected id: string) {
         store.dispatch(this.metadataService.findMetadataById(this.id));
-        this.state = new BehaviorSubject<ViewMetadata<T, P>>(objectPath.get(store.getState(), `metadata.${this.id}`));
-        let w = watch(store.getState, `metadata.${this.id}`);
-        store.subscribe(w((newVal, oldVal, objectPath) => {
-            this.state.next(newVal);
-        }))
+        this.state$ = this.store.state$.pipe(map(state => objectPath.get(state, `metadata.${id}`), distinct()));
+    }
+
+    public get state(): ViewMetadata<T, P> {
+        return objectPath.get(this.store.getState(), `metadata.${this.id}`);
     }
 }
 
 export class PageMetadata extends Metadata<PageTransientData, PagePersistentData> {
 
-    constructor(metadataService: MetadataHandlerInRenderer, id: string) {
-        super(metadataService, id);
+    constructor(store: PhxStore, metadataService: MetadataHandlerInRenderer, id: string) {
+        super(store, metadataService, id);
     }
 
     get x() {
-        return this.state.value.persistent.boxPosition.x;
+        return this.state.persistent.boxPosition.x;
     }
 
     get y() {
-        return this.state.value.persistent.boxPosition.y;
+        return this.state.persistent.boxPosition.y;
     }
 
     get x$(): Observable<string> {
-        return this.state.pipe(map((state:
+        return this.state$.pipe(map((state:
             ViewMetadata<PageTransientData, PagePersistentData>) => state?.persistent?.boxPosition?.x), distinct());
     }
 
     get y$(): Observable<string> {
-        return this.state.pipe(map((state:
+        return this.state$.pipe(map((state:
             ViewMetadata<PageTransientData, PagePersistentData>) => state?.persistent?.boxPosition?.y), distinct());
     }
 
     get boxPosition$(): Observable<Position> {
-        return this.state.pipe(map((state:
+        return this.state$.pipe(map((state:
             ViewMetadata<PageTransientData, PagePersistentData>) => state?.persistent?.boxPosition), distinct());
     }
 
     move(newX: string, newY: string) {
-        store.dispatch(moveBoxPositionAction({id: this.id, x: newX, y: newY}))
+        this.store.dispatch(moveBoxPositionAction({ id: this.id, x: newX, y: newY }))
     }
 }

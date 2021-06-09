@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { PanelViewModule } from './panelview/panelview.module';
 import { PageViewModule } from './pageview/pageview.module';
 import { registerCommonMetadata } from './store/metadata.reducers';
+import { PhxStore } from './store/store';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,8 @@ import { registerCommonMetadata } from './store/metadata.reducers';
 })
 export class AppModule {
 
-  constructor() {
-    registerCommonMetadata();
+  constructor(store: PhxStore) {
+    registerCommonMetadata(store);
   }
 
 }

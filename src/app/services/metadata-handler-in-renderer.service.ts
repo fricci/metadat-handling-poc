@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AnyAction } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 import { metadataArrivedAction } from '../store/metadata-action.actions';
-import store from '../store/store';
 import { MainService } from './main.service';
 import { take } from 'rxjs/operators';
 import objectPath from 'object-path';

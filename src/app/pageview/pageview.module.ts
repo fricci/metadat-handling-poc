@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { PageViewComponent } from './pageview.component';
 import { FormsModule } from '@angular/forms';
 import { registerPageReducers } from './page-view-metadata';
+import { PhxStore } from '../store/store';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { registerPageReducers } from './page-view-metadata';
   ]
 })
 export class PageViewModule {
-  constructor() {
-    registerPageReducers();
+  constructor(store: PhxStore) {
+    registerPageReducers(store);
   }
 }
