@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
 import { metadataArrivedAction } from '../store/metadata-action.actions';
 import { PhxStore } from '../store/store';
-import { uiElementsOutOfThePanelObserver } from './panel-view-metadata';
+import { modifyElement, uiElementsOutOfThePanelObserver } from './panel-view-metadata';
 
 @Component({
   selector: 'app-panelview',
@@ -30,8 +30,6 @@ export class PanelViewComponent implements OnInit {
   }
 
   newMetadata() {
-    this.store.dispatch(metadataArrivedAction({id: this.id, payload: {
-      uiElementsOutOfThePanel: this.newUiElements.split(',')
-    }}))
+    this.store.dispatch(modifyElement(this.id, this.newUiElements.split(',')));
   }
 }

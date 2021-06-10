@@ -20,11 +20,6 @@ export interface Store {
 })
 export class PhxStore {
 
-    private registeredReducers = new Map<string, (state: Store, action: any) => any>();
-    /*private store = createStore((state: Store, action) => this.rootReducer(state, action), composeWithDevTools(
-        applyMiddleware(thunk),
-        // other store enhancers if any
-    ));*/
     private store = null
     public state$ = null
 
@@ -65,22 +60,6 @@ export class PhxStore {
         this.store.subscribe(() => {
             this.state$.next(this.store.getState());
         })
-    }
-
-    registerReducer(actionType: string, reducer: (state: Store, action: any) => Store) {
-        this.registeredReducers.set(actionType, reducer);
-    }
-
-    private rootReducer(state = {
-        parameters: {},
-        metadata: {}
-    }, action) {
-        if (this.registeredReducers.has(action.type)) {
-            return this.registeredReducers.get(action.type)(state, action);
-        } else {
-            console.warn('No registered reducer for action ', action);
-        }
-        return state;
     }
 
     dispatch(action: any) {
