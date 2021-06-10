@@ -25,20 +25,20 @@ export interface PageViewMetadata extends ViewMetadata<PageTransientData, PagePe
 
 }
 
-export const moveBoxPosition = '[PageViewActions] moveBoxPosition';
+export const moveBoxPosition = 'moveBoxPosition';
 
 export function moveBoxPositionAction(payload: { id: string, x: string, y: string }) {
     return { type: moveBoxPosition, payload };
 }
 
 function screenMetadata(screenId: string, draftState: WritableDraft<Store>) {
-    if (!draftState.metadata[screenId]) {
-        draftState.metadata[screenId] = {
+    if (!draftState[screenId]) {
+        draftState[screenId] = {
             persistent: {},
             transient: {}
         };
     }
-    return draftState.metadata[screenId];
+    return draftState[screenId];
 }
 
 function positionMetadata(draftState) {
@@ -48,7 +48,7 @@ function positionMetadata(draftState) {
     return draftState.persistent.boxPosition;
 }
 
-function movePositionReducer(state: Store, action) {
+export function movePositionReducer(state: Store, action) {
     return produce<Store>(state, draftState => {
         const screenId = action.payload.id;
         const boxId = action.payload.boxId;
@@ -58,12 +58,6 @@ function movePositionReducer(state: Store, action) {
         position.x = newX;
         position.y = newY;
     });
-}
-
-
-
-export function registerPageReducers(store: PhxStore) {
-    store.registerReducer(moveBoxPosition, movePositionReducer);
 }
 
 class Metadata<T, P> {

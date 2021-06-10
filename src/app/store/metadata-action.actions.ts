@@ -1,4 +1,4 @@
-export const metadataArrivedType = '[MetadataAction] MetadataArrived Actions';
+export const metadataArrivedType = 'metadataArrivedType';
 export const saveMetadataType = '[MetadataAction Save metadata';
 
 export function metadataArrivedAction(payload) {

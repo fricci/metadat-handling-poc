@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PageViewComponent } from './pageview.component';
 import { FormsModule } from '@angular/forms';
-import { registerPageReducers } from './page-view-metadata';
-import { PhxStore } from '../store/store';
+import { registerSlice } from '../store/reducer-provider';
+import { movePositionReducer } from './page-view-metadata';
 
 @NgModule({
   declarations: [
@@ -12,10 +12,14 @@ import { PhxStore } from '../store/store';
   imports: [
     BrowserModule,
     FormsModule
+  ],
+  providers: [
+    registerSlice({
+      metadata: {
+        moveBoxPosition: movePositionReducer
+      }
+    })
   ]
 })
 export class PageViewModule {
-  constructor(store: PhxStore) {
-    registerPageReducers(store);
-  }
 }
