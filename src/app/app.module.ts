@@ -8,6 +8,7 @@ import { PanelViewModule } from './panelview/panelview.module';
 import { PageViewModule } from './pageview/pageview.module';
 import { metadataArrivedReducer } from './store/metadata.reducers';
 import { registerSlice } from './store/reducer-provider';
+import { metadataArrivedType } from './store/metadata-action.actions';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,11 @@ import { registerSlice } from './store/reducer-provider';
   ],
   providers: [
     registerSlice({
-      metadata: {
-        metadataArrivedType: metadataArrivedReducer
+      metadata: [{
+        action: metadataArrivedType,
+        reducer: metadataArrivedReducer
       }
+      ]
     })
   ],
   bootstrap: [AppComponent]

@@ -30,12 +30,12 @@ export class PhxStore {
         injectedSliceConfigs.forEach(injectedSliceConfig => {
             Object.keys(injectedSliceConfig).forEach((sliceNameInConfig) => {
                 if (!combinedSlices[sliceNameInConfig]) {
-                    combinedSlices[sliceNameInConfig] = {};
+                    combinedSlices[sliceNameInConfig] = [];
                 }
-                combinedSlices[sliceNameInConfig] = {
+                combinedSlices[sliceNameInConfig] = [
                     ...combinedSlices[sliceNameInConfig],
                     ...injectedSliceConfig[sliceNameInConfig]
-                };
+                ];
             })
         })
 
@@ -46,7 +46,15 @@ export class PhxStore {
                 name: sliceName,
                 initialState: {},
                 reducers: {},
-                extraReducers: sliceConfig
+                extraReducers: (builder) => {
+                    sliceConfig.forEach(reducerActionPair => {
+                        builder.addCase(reducerActionPair.action, reducerActionPair.reducer);
+                    });
+                    builder.addDefaultCase((state, action) => {
+                        console.error('No handler for this action: ', action);
+                        return state;
+                    })
+                }
             }).reducer;
             reducers[sliceName] = slices;
         })

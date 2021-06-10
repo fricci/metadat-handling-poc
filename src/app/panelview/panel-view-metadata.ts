@@ -24,8 +24,10 @@ export function addNewElementReducer(state: Store, action) {
     });
 }
 
+export const modifyElementActionType = '[PANEL] modifyElement';
+
 export function modifyElement( id: string, uiElementsOutOfThePanel: string[] ) {
-    return { type: 'modifyElement', payload: {
+    return { type: modifyElementActionType, payload: {
         id, uiElementsOutOfThePanel
     } };
 }

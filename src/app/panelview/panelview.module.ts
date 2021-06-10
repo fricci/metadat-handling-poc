@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { PanelViewComponent } from './panelview.component';
 import { FormsModule } from '@angular/forms';
 import { registerSlice } from '../store/reducer-provider';
-import { addNewElementReducer } from './panel-view-metadata';
+import { addNewElementReducer, modifyElementActionType } from './panel-view-metadata';
 
 @NgModule({
   declarations: [
@@ -15,9 +15,12 @@ import { addNewElementReducer } from './panel-view-metadata';
   ],
   providers: [
     registerSlice({
-      metadata: {
-        modifyElement: addNewElementReducer
-      }
+      metadata: [
+        {
+          action: modifyElementActionType,
+          reducer: addNewElementReducer
+        }
+      ]
     })
   ]
 })

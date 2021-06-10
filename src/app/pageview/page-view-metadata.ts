@@ -25,7 +25,7 @@ export interface PageViewMetadata extends ViewMetadata<PageTransientData, PagePe
 
 }
 
-export const moveBoxPosition = 'moveBoxPosition';
+export const moveBoxPosition = '[PAGE] moveBoxPosition';
 
 export function moveBoxPositionAction(payload: { id: string, x: string, y: string }) {
     return { type: moveBoxPosition, payload };

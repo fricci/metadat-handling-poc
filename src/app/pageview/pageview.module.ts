@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { PageViewComponent } from './pageview.component';
 import { FormsModule } from '@angular/forms';
 import { registerSlice } from '../store/reducer-provider';
-import { movePositionReducer } from './page-view-metadata';
+import { moveBoxPosition, movePositionReducer } from './page-view-metadata';
 
 @NgModule({
   declarations: [
@@ -15,9 +15,12 @@ import { movePositionReducer } from './page-view-metadata';
   ],
   providers: [
     registerSlice({
-      metadata: {
-        moveBoxPosition: movePositionReducer
-      }
+      metadata: [
+        {
+          action: moveBoxPosition,
+          reducer: movePositionReducer
+        }
+      ]
     })
   ]
 })
