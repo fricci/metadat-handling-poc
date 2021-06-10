@@ -20,24 +20,11 @@ export interface Store {
 })
 export class PhxStore {
 
-    private store = null
-    public state$ = null
+    private readonly store = null
+    public readonly state$ = null
 
     constructor(@Inject(REDUCER_TOKEN) public injectedSliceConfigs: Slices[]) {
-        console.log(injectedSliceConfigs);
-
-        const combinedSlices = {};
-        injectedSliceConfigs.forEach(injectedSliceConfig => {
-            Object.keys(injectedSliceConfig).forEach((sliceNameInConfig) => {
-                if (!combinedSlices[sliceNameInConfig]) {
-                    combinedSlices[sliceNameInConfig] = [];
-                }
-                combinedSlices[sliceNameInConfig] = [
-                    ...combinedSlices[sliceNameInConfig],
-                    ...injectedSliceConfig[sliceNameInConfig]
-                ];
-            })
-        })
+        const combinedSlices = this.combineSlicesAcrossModules(injectedSliceConfigs)
 
         const reducers: any = {};
         Object.keys(combinedSlices).forEach((sliceName) => {
@@ -68,6 +55,22 @@ export class PhxStore {
         this.store.subscribe(() => {
             this.state$.next(this.store.getState());
         })
+    }
+
+    private combineSlicesAcrossModules(injectedSliceConfigs: Slices[]): Slices {
+        const combinedSlices = {};
+        injectedSliceConfigs.forEach(injectedSliceConfig => {
+            Object.keys(injectedSliceConfig).forEach((sliceNameInConfig) => {
+                if (!combinedSlices[sliceNameInConfig]) {
+                    combinedSlices[sliceNameInConfig] = [];
+                }
+                combinedSlices[sliceNameInConfig] = [
+                    ...combinedSlices[sliceNameInConfig],
+                    ...injectedSliceConfig[sliceNameInConfig]
+                ];
+            })
+        })
+        return combinedSlices;
     }
 
     dispatch(action: any) {

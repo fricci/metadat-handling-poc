@@ -2,9 +2,8 @@ import { Observable } from 'rxjs';
 import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
 import { ViewMetadata } from '../store/model/view-metadata.model';
 import objectPath from 'object-path';
-import {PhxStore, Store } from '../store/store';
+import { PhxStore, Store } from '../store/store';
 import { distinct, map } from 'rxjs/operators';
-import produce from 'immer';
 
 export interface PanelTransientData {
     panelInReadonlyMode: boolean;
@@ -19,17 +18,18 @@ export interface PanelViewMetadata extends ViewMetadata<PanelTransientData, Pane
 }
 
 export function addNewElementReducer(state: Store, action) {
-    return produce<Store>(state, draftState => {
-        draftState[action.payload.id].persistent.uiElementsOutOfThePanel = action.payload.uiElementsOutOfThePanel
-    });
+    state[action.payload.id].persistent.uiElementsOutOfThePanel = action.payload.uiElementsOutOfThePanel
+    return state;
 }
 
 export const modifyElementActionType = '[PANEL] modifyElement';
 
-export function modifyElement( id: string, uiElementsOutOfThePanel: string[] ) {
-    return { type: modifyElementActionType, payload: {
-        id, uiElementsOutOfThePanel
-    } };
+export function modifyElement(id: string, uiElementsOutOfThePanel: string[]) {
+    return {
+        type: modifyElementActionType, payload: {
+            id, uiElementsOutOfThePanel
+        }
+    };
 }
 
 export function metadataSelector(store: PhxStore, id: string) {

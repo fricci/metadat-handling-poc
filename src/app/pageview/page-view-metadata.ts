@@ -1,11 +1,9 @@
 import watch from 'redux-watch';
 import { Observable } from 'rxjs';
 import { ViewMetadata } from '../store/model/view-metadata.model';
-import  { PhxStore, Store } from '../store/store';
+import { PhxStore, Store } from '../store/store';
 import objectPath from 'object-path';
 import { MetadataHandlerInRenderer } from '../services/metadata-handler-in-renderer.service';
-import produce from 'immer';
-import { WritableDraft } from 'immer/dist/internal';
 import { distinct, map } from 'rxjs/operators';
 
 export interface PageTransientData {
@@ -31,33 +29,35 @@ export function moveBoxPositionAction(payload: { id: string, x: string, y: strin
     return { type: moveBoxPosition, payload };
 }
 
-function screenMetadata(screenId: string, draftState: WritableDraft<Store>) {
-    if (!draftState[screenId]) {
-        draftState[screenId] = {
+function screenMetadata(screenId: string, state: Store): PageViewMetadata {
+    if (!state[screenId]) {
+        state[screenId] = {
             persistent: {},
             transient: {}
         };
     }
-    return draftState[screenId];
+    return state[screenId];
 }
 
-function positionMetadata(draftState) {
-    if (!draftState.boxPosition) {
-        draftState.persistent.boxPosition = {};
+function positionMetadata(state: PageViewMetadata) {
+    if (!state.persistent.boxPosition) {
+        state.persistent.boxPosition = {
+            x: '',
+            y: ''
+        };
     }
-    return draftState.persistent.boxPosition;
+    return state.persistent.boxPosition;
 }
 
 export function movePositionReducer(state: Store, action) {
-    return produce<Store>(state, draftState => {
-        const screenId = action.payload.id;
-        const boxId = action.payload.boxId;
-        const newX = action.payload.x;
-        const newY = action.payload.y;
-        const position = positionMetadata(screenMetadata(screenId, draftState))
-        position.x = newX;
-        position.y = newY;
-    });
+    const screenId = action.payload.id;
+    const boxId = action.payload.boxId;
+    const newX = action.payload.x;
+    const newY = action.payload.y;
+    const position = positionMetadata(screenMetadata(screenId, state))
+    position.x = newX;
+    position.y = newY;
+    return state;
 }
 
 class Metadata<T, P> {
